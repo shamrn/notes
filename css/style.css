@@ -16,11 +16,12 @@
 
 html{
     font-family: 'Igra Sans';
-    font-size: calc(1.2vw + 1.2vh);
+    font-size: calc(1vw + 1vh);
 }
 
 a{
     text-decoration: none;
+    color: #000;
 }
 
 ul{
@@ -94,28 +95,62 @@ ul{
 
 .section-notes-left{
     width: 30%;
-    margin-top: calc(5vw + 5vh);
-
+    margin: calc(5vw + 5vh) calc(8vw + 8vh) calc(5vw + 5vh) calc(8vw + 8vh) ;
 }
 
 .header-notes{
     display: flex;
+    align-items: center;
+    white-space: nowrap;    
 }
 
 .section-notes-right{
     width: 70%;
-    margin-top: calc(5vw + 5vh);
+    margin: calc(5vw + 5vh) calc(8vw + 8vh) calc(5vw + 5vh) calc(8vw + 8vh) ;
 
+}
+
+.title-notes{
+    color:rgb(30,144,255);
 }
 
 .input-notes{
     border: none;
     outline: none;
     border-radius: calc(2vw + 2vh);
-    width: 100%;
+    width: calc(13vw + 13vh);
     height: calc(1.8vw + 1.8vh);
     background: white;
     padding-left: 15px;
-    margin-left: calc(4vw + 4vh);
+    padding-right: 15px;
+    margin-left: calc(2vw + 2vh);
 }
 
+.sort-notes{
+    margin-left: calc(2vw + 2vh);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    color: #000;
+    font-size: calc(.7vw + .7vh);
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .sort-item-notes:hover{
+    color:rgb(30,144,255);
+  }
