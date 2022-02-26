@@ -108,6 +108,16 @@ ul{
     white-space: nowrap;    
 }
 
+
+/*  -------------------------- SECTION NOTES LEFT  -------------------------------  */
+
+
+
+
+
+
+/*  -------------------------- SECTION NOTES RIGHT  -------------------------------  */
+
 .section-notes-right{
     width: 70%;
     margin-top: calc(5vw + 5vh);
@@ -170,6 +180,14 @@ ul{
     justify-content: space-between;
 }
 
+.transofrm-scale{
+    transition: transform .27s;
+}
+
+.transofrm-scale:hover{
+    transform: scale(1.04);
+}
+
 .item-notes{
     width: 32%;
     height: calc(6vw + 6vh);
@@ -180,22 +198,45 @@ ul{
 
     box-shadow: 0px 0px transparent, 0px 5px 10px rgba(30,144,255, 0.20);
     cursor: pointer;
-
-    transition: transform .27s; 
 }
 
 .item-notes:hover{
     -webkit-box-shadow: 0px 5px 10px 2px rgba(30,144,255, 0.27);
     -moz-box-shadow: 0px 5px 10px 2px rgba(30,144,255, 0.27);
     box-shadow: 0px 5px 10px 2px rgba(30,144,255, 0.27);
-
-    transform: scale(1.04);
 }
 
-.item-desc-notes, .item-group-notes, .item-date-created{
+.item-desc-notes, .item-group-notes, .item-date-created-notes{
     margin-top: calc(.5vw + .5vh);
 } 
+
 
 .item-title-notes{
     text-align: center;
 }
+
+.create-note{
+    position: fixed;
+    z-index: 1;
+    bottom: 5%;
+    left: 75%;
+
+    padding: calc(1vw + 1vh);
+    margin-bottom: calc(1vw + 1vh);
+
+    border: none;
+    border-radius: calc(3vw + 3vh);
+    background: rgb(30,144,255);
+    cursor: pointer;
+
+    font-size: calc(.8vw + .8vh);
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #FFF;
+    mix-blend-mode: multiply;
+
+    -webkit-box-shadow: 0px 5px 10px 2px rgba(30,144,255, 0.27);
+    -moz-box-shadow: 0px 5px 10px 2px rgba(30,144,255, 0.27);
+    box-shadow: 0px 5px 10px 2px rgba(30,144,255, 0.27);
+}
+
