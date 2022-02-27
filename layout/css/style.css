@@ -2,7 +2,7 @@
 
 @font-face {
     font-family: 'Igra Sans';
-    src: url('/font/IgraSans.woff') format('woff');
+    src: url('/layout/font/IgraSans.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
