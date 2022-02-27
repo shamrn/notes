@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:14.2-alpine
+    volumes:
+      - db:/var/lib/postgres/data
+    ports:
+      - "5432:5432"
+    hostname: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  app:
+    image: notes-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    volumes:
+      - .:/app/code
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_NAME=postgres
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOSTNAME=db
+      - DB_PORT=5432
+    command: python ./manage.py runserver 0.0.0.0:8000
+volumes:
+  db:
