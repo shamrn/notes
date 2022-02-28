@@ -1,6 +1,9 @@
+from django.contrib.auth import views as auth_views
 from django.urls import path
-from authorization.views import test
+
+from .forms import UserLoginForm
 
 urlpatterns = [
-    path('test/', test),
+    path('login/', auth_views.LoginView.as_view(
+        authentication_form=UserLoginForm, template_name='authorization/login.html'), name='login'),
 ]
