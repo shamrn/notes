@@ -54,6 +54,7 @@ EXTERNAL_APPS = [
 
 PROJECT_APPS = [
     'authorization',
+    'account',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + EXTERNAL_APPS + PROJECT_APPS
@@ -151,3 +152,7 @@ MEDIA_ROOT = PUBLIC_ROOT.joinpath('media')
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = []
+
+# --------------------------------------------------------------------------------------------------
+# Auth and user settings
+AUTH_USER_MODEL = 'account.User'

@@ -1,13 +1,13 @@
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
+from account.models import User
 
 
-class UserLoginForm(AuthenticationForm):
-    """Custom form for authentication"""
+class BaseAuthorizationFormMixin:  # TODO
+    """Base user form"""
 
     class Meta:
-        """Meta class"""
-
         model = User
 
     def __init__(self, *args, **kwargs):
@@ -20,3 +20,14 @@ class UserLoginForm(AuthenticationForm):
                     'placeholder': f"{self.fields[f'{field}'].label}"
                 }
             )
+
+
+class SignUpForm(BaseAuthorizationFormMixin, UserCreationForm):   # TODO
+    """Form for sign up user"""
+
+    class Meta(BaseAuthorizationFormMixin.Meta):
+        fields = ['email']
+
+
+class SignInForm(BaseAuthorizationFormMixin, AuthenticationForm):  # TODO
+    """Form for sign in user"""

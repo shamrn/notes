@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <form class="base-form" action="." method="post" enctype="multipart/form-data">
+      {% for field in form %}
+        <p>{% if field.errors %} <small>{{ field.errors }}</small>{% endif %}{{ field }}</p>
+      {% endfor %}
+      {% csrf_token %}
+      <input class="link" class="input-form" type="submit" value="Войти">
+    </form>
+</div>
+{% endblock %}
