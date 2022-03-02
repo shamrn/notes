@@ -145,14 +145,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_ROOT = PUBLIC_ROOT.joinpath('static')
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR.joinpath('static')]
 
-MEDIA_ROOT = PUBLIC_ROOT.joinpath('media')
+MEDIA_ROOT = BASE_DIR.joinpath('media')
 MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = []
 
 # --------------------------------------------------------------------------------------------------
 # Auth and user settings
 AUTH_USER_MODEL = 'account.User'
+
+# TODO
+# Redirect user
+LOGIN_URL = 'sign-in'
+LOGIN_REDIRECT_URL = None
+LOGOUT_URL = 'main'
