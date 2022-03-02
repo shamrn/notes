@@ -49,7 +49,7 @@ DJANGO_APPS = [
 ]
 
 EXTERNAL_APPS = [
-
+    'django_extensions',
 ]
 
 PROJECT_APPS = [
@@ -161,3 +161,31 @@ AUTH_USER_MODEL = 'account.User'
 LOGIN_URL = 'sign-in'
 LOGIN_REDIRECT_URL = 'note'
 LOGOUT_REDIRECT_URL = 'main'
+
+# Logging
+# --------------------------------------------------------------------------------------------------
+LOGGING = {
+    'version': 1,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['console', ],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    }
+}
