@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -13,5 +14,4 @@ class SignUpView(SuccessMessageMixin, CreateView):
     form_class = SignUpForm
     success_message = 'Аккаунт успешно создан.'
     template_name = 'authorization/sign_up.html'
-    success_url = reverse_lazy('login')
-
+    success_url = reverse_lazy(settings.LOGIN_REDIRECT_URL)

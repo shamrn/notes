@@ -159,4 +159,4 @@ AUTH_USER_MODEL = 'account.User'
 # Redirect user
 LOGIN_URL = 'sign-in'
 LOGIN_REDIRECT_URL = 'note'
-LOGOUT_URL = 'main'
+LOGOUT_REDIRECT_URL = 'main'
