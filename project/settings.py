@@ -156,8 +156,7 @@ MEDIA_URL = '/media/'
 # Auth and user settings
 AUTH_USER_MODEL = 'account.User'
 
-# TODO
 # Redirect user
 LOGIN_URL = 'sign-in'
-LOGIN_REDIRECT_URL = None
+LOGIN_REDIRECT_URL = 'note'
 LOGOUT_URL = 'main'
