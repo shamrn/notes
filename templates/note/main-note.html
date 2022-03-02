@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block content %}
-        {% for note in notes %}
-            <p>{{ note.group.name }}</p>
-        {% endfor %}
-{% endblock %}
