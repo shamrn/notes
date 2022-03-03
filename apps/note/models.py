@@ -10,16 +10,19 @@ class Group(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField('Название', unique=True, max_length=100)
 
+    def __str__(self):
+        return self.name
+
 
 class NoteQuerySet(models.QuerySet):
     """Query set for model note"""
 
-    def by_user(self, user: 'User') -> Union['NoteQuerySet', models.QuerySet]: # TODO
+    def by_user(self, user: 'User') -> Union['NoteQuerySet', models.QuerySet]:
         """Filter by user"""
 
         return self.filter(user=user)
 
-    def select_related_group(self) -> Union['NoteQuerySet', models.QuerySet]: # TODO
+    def select_related_group(self) -> Union['NoteQuerySet', models.QuerySet]:
         """Join with model - group"""
 
         return self.select_related('group')
@@ -44,3 +47,6 @@ class Note(models.Model):
     date_removed = models.DateTimeField('Дата удаления', null=True, blank=True)
 
     objects = NoteManager.from_queryset(NoteQuerySet)()
+
+    def __str__(self):
+        return self.name

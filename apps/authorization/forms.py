@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from account.models import User
 
 
-class BaseAuthorizationFormMixin:  # TODO
+class BaseAuthorizationForm:
     """Base user form"""
 
     class Meta:
@@ -16,18 +16,18 @@ class BaseAuthorizationFormMixin:  # TODO
         for field in self.fields:  # NOQA
             self.fields[field].widget.attrs.update(  # NOQA
                 {
-                    'class': "form-field",
+                    'class': 'form-field',
                     'placeholder': f"{self.fields[f'{field}'].label}"  # NOQA
                 }
             )
 
 
-class SignUpForm(BaseAuthorizationFormMixin, UserCreationForm):   # TODO
+class SignUpForm(BaseAuthorizationForm, UserCreationForm):
     """Form for sign up user"""
 
-    class Meta(BaseAuthorizationFormMixin.Meta):
+    class Meta(BaseAuthorizationForm.Meta):
         fields = ['email']
 
 
-class SignInForm(BaseAuthorizationFormMixin, AuthenticationForm):  # TODO
+class SignInForm(BaseAuthorizationForm, AuthenticationForm):
     """Form for sign in user"""
