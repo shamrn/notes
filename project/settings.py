@@ -50,6 +50,7 @@ DJANGO_APPS = [
 
 EXTERNAL_APPS = [
     'django_extensions',
+    'django_filters',
 ]
 
 PROJECT_APPS = [

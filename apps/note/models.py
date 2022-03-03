@@ -1,7 +1,9 @@
+from typing import Union
+
 from django.db import models
 
 from account.models import User
-from typing import Union
+from extension.filters import greatest_trigram_similarity
 
 
 class Group(models.Model):
@@ -26,6 +28,14 @@ class NoteQuerySet(models.QuerySet):
         """Join with model - group"""
 
         return self.select_related('group')
+
+    def annotate_trigram_similarity(self, value: str) -> Union['NoteQuerySet', models.QuerySet]:
+        """Trigram similarity for field 'name' and 'description'"""
+
+        return self.annotate(
+            trigram_similarity=greatest_trigram_similarity(
+                fields=['name', 'description'], value=value
+            ))
 
 
 class NoteManager(models.Manager):

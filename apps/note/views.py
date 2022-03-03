@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import DetailView
+from django_filters.views import FilterView
 
+from note.filters import NoteFilterSet
 from note.models import Note
 
 
@@ -24,12 +26,13 @@ class NoteBaseView(LoginRequiredMixin):
         return super().get_queryset().by_user(self.request.user).select_related_group()  # NOQA
 
 
-class NoteListView(NoteBaseView, ListView):
+class NoteListView(NoteBaseView, FilterView):
     """Note list view"""
 
     template_name = 'note/main_note.html'
     context_object_name = 'notes'
     paginate_by = 30
+    filterset_class = NoteFilterSet
 
 
 class NoteDetailView(NoteBaseView, DetailView):

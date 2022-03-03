@@ -1,8 +1,11 @@
-# django web framework
+# Django web framework
 django==4.0.2
 
-# psycopg2 binary build for work postgresql
+# Psycopg2 binary build for work postgresql
 psycopg2-binary==2.9.3
 
-# show sql query extension
+# Show sql query extension
 django-extensions==3.1.5
+
+# Django filter
+django-filter==21.1
