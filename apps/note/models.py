@@ -9,6 +9,8 @@ from extension.filters import greatest_trigram_similarity
 class Group(models.Model):
     """Model group note"""
 
+    deleted = -1  # Group for deleted notes
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField('Название', unique=True, max_length=100)
 
@@ -23,6 +25,11 @@ class NoteQuerySet(models.QuerySet):
         """Filter by user"""
 
         return self.filter(user=user)
+
+    def by_deleted(self) -> Union['NoteQuerySet', models.QuerySet]:
+        """Filter by deleted"""
+
+        return self.filter(await_removal=True)
 
     def select_related_group(self) -> Union['NoteQuerySet', models.QuerySet]:
         """Join with model - group"""

@@ -5,7 +5,7 @@ from django.views.generic import DetailView
 from django_filters.views import FilterView
 
 from note.filters import NoteFilterSet
-from note.models import Note
+from note.models import Group, Note
 
 
 def main(request):
@@ -36,6 +36,13 @@ class NoteListView(NoteBaseView, FilterView):
     context_object_name = 'notes'
     paginate_by = 30
     filterset_class = NoteFilterSet
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        """Added in context - list of user groups"""
+
+        context = super(NoteListView, self).get_context_data(**kwargs)
+        context.update({'groups': Group.objects.filter(user=self.request.user)})
+        return context
 
 
 class NoteDetailView(NoteBaseView, DetailView):
