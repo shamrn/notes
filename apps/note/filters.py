@@ -10,7 +10,7 @@ class NoteFilterSet(filters.FilterSet):
 
     class Meta:
         model = Note
-        fields = ['date_created']
+        fields = []
 
     @staticmethod
     def by_trigram_similarity(queryset, name: str, value: str):

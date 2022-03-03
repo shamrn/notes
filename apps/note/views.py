@@ -23,7 +23,10 @@ class NoteBaseView(LoginRequiredMixin):
     model = Note
 
     def get_queryset(self):
-        return super().get_queryset().by_user(self.request.user).select_related_group()  # NOQA
+        return (super().get_queryset()  # NOQA
+                       .by_user(self.request.user)  # NOQA
+                       .select_related_group()
+                       .order_by('-date_created'))
 
 
 class NoteListView(NoteBaseView, FilterView):
