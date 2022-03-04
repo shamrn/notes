@@ -4,6 +4,7 @@ from django.db import models
 
 from account.models import User
 from extension.filters import greatest_trigram_similarity
+from datetime import datetime, timedelta
 
 
 class Group(models.Model):
@@ -48,6 +49,11 @@ class NoteQuerySet(models.QuerySet):
 class NoteManager(models.Manager):
     """Manager for models note"""
 
+    def checking_await_removed(self) -> Union['NoteManager', models.QuerySet]:  # TODO
+        """Checking the note for the date of deletion"""
+
+        return self.filter(await_removal=True, date_created__lte=datetime.now())
+
 
 class Note(models.Model):
     """Model note"""
@@ -67,3 +73,10 @@ class Note(models.Model):
 
     def __str__(self):
         return self.name
+
+    def set_await_removal(self):  # TODO
+        """Set await removal note"""
+
+        self.date_created = datetime.now() + timedelta(days=30)
+        self.await_removal = True
+        self.save(update_fields=['await_removal', 'date_created'])
