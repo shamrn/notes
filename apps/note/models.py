@@ -1,10 +1,10 @@
+from datetime import datetime, timedelta
 from typing import Union
 
 from django.db import models
 
 from account.models import User
 from extension.filters import greatest_trigram_similarity
-from datetime import datetime, timedelta
 
 
 class Group(models.Model):
@@ -27,10 +27,10 @@ class NoteQuerySet(models.QuerySet):
 
         return self.filter(user=user)
 
-    def by_deleted(self) -> Union['NoteQuerySet', models.QuerySet]:
-        """Filter by deleted"""
+    def by_past_date_deletion(self) -> Union['NoteManager', models.QuerySet]:  # TODO
+        """Check the note for the deletion date and return the queryset for deletion"""
 
-        return self.filter(await_removal=True)
+        return self.filter(await_removal=True, date_removed__lte=datetime.now())
 
     def select_related_group(self) -> Union['NoteQuerySet', models.QuerySet]:
         """Join with model - group"""
@@ -48,11 +48,6 @@ class NoteQuerySet(models.QuerySet):
 
 class NoteManager(models.Manager):
     """Manager for models note"""
-
-    def checking_await_removed(self) -> Union['NoteManager', models.QuerySet]:  # TODO
-        """Checking the note for the date of deletion"""
-
-        return self.filter(await_removal=True, date_created__lte=datetime.now())
 
 
 class Note(models.Model):
@@ -77,6 +72,6 @@ class Note(models.Model):
     def set_await_removal(self):  # TODO
         """Set await removal note"""
 
-        self.date_created = datetime.now() + timedelta(days=30)
+        self.date_removed = datetime.now() + timedelta(days=30)
         self.await_removal = True
-        self.save(update_fields=['await_removal', 'date_created'])
+        self.save(update_fields=['await_removal', 'date_removed'])
