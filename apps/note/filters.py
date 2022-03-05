@@ -1,6 +1,6 @@
 import django_filters as filters
 from note.models import Group, Note
-from extension.validators import EMPTY_VALUES
+from extensions.validators import EMPTY_VALUES
 
 
 class NoteFilterSet(filters.FilterSet):

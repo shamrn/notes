@@ -4,7 +4,7 @@ from typing import Union
 from django.db import models
 
 from account.models import User
-from extension.filters import greatest_trigram_similarity
+from extensions.filters import greatest_trigram_similarity
 
 
 class Group(models.Model):
