@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+        <section class="section-main">
+            <form class="base-form" action="." method="post">
+              {% for field in form %}
+                <p>{% if field.errors %} <small>{{ field.errors }}</small>{% endif %}{{ field }}</p>
+              {% endfor %}
+              {% csrf_token %}
+                <input class="link" type="submit" value="Сохранить">
+            </form>
+        </section>
+{% endblock %}

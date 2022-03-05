@@ -2,11 +2,13 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView
+from django.views.generic import DetailView, CreateView
 from django_filters.views import FilterView
 
 from note.filters import NoteFilterSet
+from note.forms import GroupCreateForm
 from note.models import Group, Note
+from django.urls import reverse_lazy
 
 
 def main(request):
@@ -18,6 +20,21 @@ def main(request):
     return render(request, template_name='main.html')
 
 
+class GroupCreateView(LoginRequiredMixin, CreateView):
+    """Group create view"""
+
+    model = Group
+    template_name = 'note/create_group.html'
+    form_class = GroupCreateForm
+    success_url = reverse_lazy('note')
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.user = self.request.user
+        instance.save()
+        return super(GroupCreateView, self).form_valid(form)
+
+
 class NoteBaseView(LoginRequiredMixin):
     """Note base view"""
 
@@ -25,10 +42,10 @@ class NoteBaseView(LoginRequiredMixin):
 
     def get_queryset(self):
         return (super().get_queryset()  # NOQA
-                       .by_user(self.request.user)  # NOQA
-                       .select_related_group()
-                       .order_by('-date_created'))
-                       # TODO убрать из общего списка удаленные заметки
+                .by_user(self.request.user)  # NOQA
+                .select_related_group()
+                .order_by('-date_created'))
+        # TODO убрать из общего списка удаленные заметки
 
 
 class NoteListView(NoteBaseView, FilterView):
