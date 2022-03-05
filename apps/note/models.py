@@ -27,10 +27,23 @@ class NoteQuerySet(models.QuerySet):
 
         return self.filter(user=user)
 
+    def by_await_removal(self) -> Union['NoteQuerySet', models.QuerySet]:
+        """Filter by await removal"""
+
+        return self.filter(await_removal=True)
+
+    def by_group(self, group_id: int) -> Union['NoteQuerySet', models.QuerySet]:
+        """Filter by group"""
+
+        if group_id == Group.deleted:
+            return self.by_await_removal()
+
+        return self.filter(group=group_id)
+
     def by_past_date_deletion(self) -> Union['NoteManager', models.QuerySet]:  # TODO
         """Check the note for the deletion date and return the queryset for deletion"""
 
-        return self.filter(await_removal=True, date_removed__lte=datetime.now())
+        return self.by_await_removal().filter(date_removed__lte=datetime.now())
 
     def select_related_group(self) -> Union['NoteQuerySet', models.QuerySet]:
         """Join with model - group"""
