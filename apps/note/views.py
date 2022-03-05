@@ -26,7 +26,8 @@ class NoteBaseView(LoginRequiredMixin):
         return (super().get_queryset()  # NOQA
                        .by_user(self.request.user)  # NOQA
                        .select_related_group()
-                       .order_by('-date_created'))  # TODO убрать из общего списка удаленные заметки
+                       .order_by('-date_created'))
+                       # TODO убрать из общего списка удаленные заметки
 
 
 class NoteListView(NoteBaseView, FilterView):
@@ -41,12 +42,12 @@ class NoteListView(NoteBaseView, FilterView):
         """Added in context - list of user groups"""
 
         context = super(NoteListView, self).get_context_data(**kwargs)
-        context.update({'groups': Group.objects.filter(user=self.request.user)})
+        context.update({'groups': Group.objects.by_user(self.request.user)})
         return context
 
 
-class NoteDetailView(NoteBaseView, DetailView):
-    """Note detail view """
+class NoteDetailView(NoteBaseView, DetailView):  # TODO or UpdateView?
+    """Note detail view"""
 
     template_name = 'note/detail_note.html'
     context_object_name = 'note'

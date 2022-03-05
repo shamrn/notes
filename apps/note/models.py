@@ -5,15 +5,29 @@ from django.db import models
 
 from account.models import User
 from extensions.filters import greatest_trigram_similarity
+from django.conf import settings
+
+
+class GroupQuerySet(models.QuerySet):
+    """Query set for model note"""
+
+    def by_user(self, user):
+        """Filter by user"""
+
+        return self.filter(user=user)
 
 
 class Group(models.Model):
     """Model group note"""
 
-    deleted = -1  # Group for deleted notes
+    # Group for deleted notes
+    deleted_number = -1
+    deleted_label = 'Удаленные'
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField('Название', unique=True, max_length=100)
+
+    objects = models.Manager.from_queryset(GroupQuerySet)()
 
     def __str__(self):
         return self.name
@@ -35,7 +49,7 @@ class NoteQuerySet(models.QuerySet):
     def by_group(self, group_id: int) -> Union['NoteQuerySet', models.QuerySet]:
         """Filter by group"""
 
-        if group_id == Group.deleted:
+        if group_id == Group.deleted_number:
             return self.by_await_removal()
 
         return self.filter(group=group_id)
@@ -62,6 +76,8 @@ class NoteQuerySet(models.QuerySet):
 class NoteManager(models.Manager):
     """Manager for models note"""
 
+    # TODO no used
+
 
 class Note(models.Model):
     """Model note"""
@@ -85,6 +101,6 @@ class Note(models.Model):
     def set_await_removal(self):  # TODO no used
         """Set await removal note"""
 
-        self.date_removed = datetime.now() + timedelta(days=30)
+        self.date_removed = datetime.now() + timedelta(days=settings.DAYS_BEFORE_REMOVAL)
         self.await_removal = True
         self.save(update_fields=['await_removal', 'date_removed'])

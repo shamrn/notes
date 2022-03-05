@@ -15,7 +15,7 @@ class NoteFilterSet(filters.FilterSet):
         """Filter by group and include group - deleted"""
 
         if (empty_value(value) and value.isnumeric() or
-                (hasattr(Group, 'deleted') and value == str(Group.deleted))):
+                (hasattr(Group, 'deleted_number') and value == str(Group.deleted_number))):
             return queryset.by_group(int(value))
         return queryset.none()
 
