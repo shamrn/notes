@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView
@@ -51,3 +52,13 @@ class NoteDetailView(NoteBaseView, DetailView):  # TODO or UpdateView?
 
     template_name = 'note/detail_note.html'
     context_object_name = 'note'
+
+
+@login_required
+def note_delete(request, pk):
+    """Set note for await removal"""
+
+    if note := Note.objects.filter(pk=pk).by_user(request.user).first():  # NOQA
+        note.set_await_removal()
+
+    return redirect('note')
