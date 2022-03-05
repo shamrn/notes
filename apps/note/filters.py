@@ -1,5 +1,5 @@
 import django_filters as filters
-from note.models import Group, Note
+from note.models import Group
 from extensions.validators import empty_value
 
 
@@ -10,17 +10,12 @@ class NoteFilterSet(filters.FilterSet):
     search = filters.CharFilter(method='by_trigram_similarity')
     old_date_created = filters.BooleanFilter(method='by_old_date_created')
 
-    class Meta:
-        model = Note
-        fields = []
-
     @staticmethod
     def by_group(queryset, name: str, value: str):  # NOQA
         """Filter by group and include group - deleted"""
 
         if (empty_value(value) and value.isnumeric() or
                 (hasattr(Group, 'deleted') and value == str(Group.deleted))):
-
             return queryset.by_group(int(value))
         return queryset.none()
 

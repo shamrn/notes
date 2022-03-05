@@ -40,12 +40,12 @@ class NoteQuerySet(models.QuerySet):
 
         return self.filter(group=group_id)
 
-    def by_past_date_deletion(self) -> Union['NoteManager', models.QuerySet]:  # TODO
+    def by_past_date_deletion(self) -> Union['NoteManager', models.QuerySet]:  # TODO no used
         """Check the note for the deletion date and return the queryset for deletion"""
 
         return self.by_await_removal().filter(date_removed__lte=datetime.now())
 
-    def select_related_group(self) -> Union['NoteQuerySet', models.QuerySet]:
+    def select_related_group(self) -> Union['NoteQuerySet', models.QuerySet]:  # TODO uses 1
         """Join with model - group"""
 
         return self.select_related('group')
@@ -82,7 +82,7 @@ class Note(models.Model):
     def __str__(self):
         return self.name
 
-    def set_await_removal(self):  # TODO
+    def set_await_removal(self):  # TODO no used
         """Set await removal note"""
 
         self.date_removed = datetime.now() + timedelta(days=30)

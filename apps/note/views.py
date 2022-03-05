@@ -18,7 +18,7 @@ def main(request):
 
 
 class NoteBaseView(LoginRequiredMixin):
-    """Note Base View"""
+    """Note base view"""
 
     model = Note
 
@@ -26,7 +26,7 @@ class NoteBaseView(LoginRequiredMixin):
         return (super().get_queryset()  # NOQA
                        .by_user(self.request.user)  # NOQA
                        .select_related_group()
-                       .order_by('-date_created'))
+                       .order_by('-date_created'))  # TODO убрать из общего списка удаленные заметки
 
 
 class NoteListView(NoteBaseView, FilterView):
@@ -34,7 +34,7 @@ class NoteListView(NoteBaseView, FilterView):
 
     template_name = 'note/main_note.html'
     context_object_name = 'notes'
-    paginate_by = 30
+    paginate_by = 20
     filterset_class = NoteFilterSet
 
     def get_context_data(self, *, object_list=None, **kwargs):
