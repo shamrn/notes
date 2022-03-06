@@ -2,15 +2,17 @@
 {% load static %}
 
 {% block content %}
-<section class="section-main">
-    <div>
-        <form class="base-form" action="." method="post" enctype="multipart/form-data">
-          {% for field in form %}
-            <p>{% if field.errors %} <small>{{ field.errors }}</small>{% endif %}{{ field }}</p>
-          {% endfor %}
-          {% csrf_token %}
-          <input class="link" class="input-form" type="submit" value="Войти">
-        </form>
-    </div>
-</section>
+    <section class="section-main">
+         <a href="{% url 'main' %}"><h3 class="to-main-page size-nowrap-link button transofrm-scale">На главную</h3></a>
+        <a href="{% url 'sign-up' %}"><h3 class="to-sign-in-up size-nowrap-link button transofrm-scale">Регистрация</h3></a>
+        <div class="container-form">
+            <form class="base-form" action="." method="post" enctype="multipart/form-data">
+              {% for field in form %}
+                <p>{% if field.errors %} <small>{{ field.errors }}</small>{% endif %}{{ field }}</p>
+              {% endfor %}
+              {% csrf_token %}
+              <input class="button button-entrance submit transofrm-scale" type="submit" value="Войти">
+            </form>
+        </div>
+    </section>
 {% endblock %}

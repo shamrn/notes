@@ -60,10 +60,59 @@ ul{
     color:rgb(30,144,255);
 }
 
+.size-nowrap-link{
+    width: calc(9.5vw + 9.5vh);
+    height: calc(2.7vw + 2.7vh);
+    white-space: nowrap;
+}
+
+.to-main-page{
+    position: absolute;
+    top:10%;
+    left: 30%;
+}
+
+.to-sign-in-up{
+    position: absolute;
+    top:10%;
+    left: 55%;
+}
+
+.container-form{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.form-field{
+    width: calc(13vw + 13vh);
+    height: calc(2vw + 2vh);
+    margin-bottom: calc(.9vw + .9vh);
+    text-align: center;
+    border: none;
+    outline: none;
+    border-radius: calc(.8vw + .8vh);
+
+    -webkit-box-shadow: 0px 5px 10px 2px rgba(30,144,255, 0.27);
+    -moz-box-shadow: 0px 5px 10px 2px rgba(30,144,255, 0.27);
+    box-shadow: 0px 5px 10px 2px rgba(30,144,255, 0.27);
+}
+
+
+/*  -------------------------- SECTION AUTHORIZATION  -------------------------------  */
+
+.button-entrance{
+    padding-left: calc(2vw + 2vh);
+    padding-right: calc(2vw + 2vh);
+}
 
 /*  -------------------------- SECTION MAIN  -------------------------------  */
 
-.lanuages-main{
+
+.languages-main{
     padding-top: calc(.5vw + .5vh);
     padding-left: calc(1vw + 1vh);
 }

@@ -3,12 +3,15 @@
 
 {% block content %}
         <section class="section-main">
-            <form class="base-form" action="." method="post">
+        <a href="{% url 'main' %}"><h3 class="to-main-page size-nowrap-link button transofrm-scale">На главную</h3></a>
+        <div class="container-form">
+            <form class="base-form" action="." method="post" enctype="multipart/form-data">
               {% for field in form %}
                 <p>{% if field.errors %} <small>{{ field.errors }}</small>{% endif %}{{ field }}</p>
               {% endfor %}
               {% csrf_token %}
-                <input class="link" type="submit" value="Сохранить">
+              <input class="button transofrm-scale" class="input-form" type="submit" value="Сохранить">
             </form>
+        </div>
         </section>
 {% endblock %}
