@@ -17,7 +17,7 @@
                             {% endfor %}
                             <li class="item-group"><a class="hover-blue-color" href="#">Удаленные &rarr;</a></li>
                         </ul>
-                        <p class="create-group"><a class="create-group-link" href="{% url 'create_group' %}">Создать группу</a></p>
+                        <p class="create-group"><a class="create-group-link" href="{% url 'create-group' %}">Создать группу</a></p>
                     </div>
                     <p class="count-notes">Колличество заметок: 32</p>
                 </div>
@@ -41,43 +41,18 @@
                     </div>
                 <div class="part-notes">
                     <ul class="list-notes">
+                        {% for note in notes %}
                         <li class="item-notes transofrm-scale">
-                            <h3 class="item-title-notes">Название заметки</h3>
-                            <p class="item-desc-notes">Описание заметки Описание заметки Описание заметки.....</p>
-                            <small class="item-group-notes">Работа</small><br>
-                            <small class="item-date-created-notes">22.08.2020</small>
+                            <h3 class="item-title-notes">{{ note.name }}</h3>
+                            <p class="item-desc-notes">{{ note.description|truncatechars:30 }}...</p>
+                            <small class="item-group-notes">{{ note.group.name }}</small><br>
+                            <small class="item-date-created-notes">{{ note.date_created }}</small>
                         </li>
-                        <li class="item-notes transofrm-scale">
-                            <h3 class="item-title-notes">Название заметки</h3>
-                            <p class="item-desc-notes">Описание заметки Описание заметки Описание заметки.....</p>
-                            <small class="item-group-notes">Работа</small><br>
-                            <small class="item-date-created-notes">22.08.2020</small>
-                        </li>
-                        <li class="item-notes transofrm-scale">
-                            <h3 class="item-title-notes">Название заметки</h3>
-                            <p class="item-desc-notes">Описание заметки Описание заметки Описание заметки.....</p>
-                            <small class="item-group-notes">Работа</small><br>
-                            <small class="item-date-created-notes">22.08.2020</small>
-                        </li>
-                        <li class="item-notes transofrm-scale">
-                            <h3 class="item-title-notes">Название заметки</h3>
-                            <p class="item-desc-notes">Описание заметки Описание заметки Описание заметки.....</p>
-                            <small class="item-group-notes">Работа</small><br>
-                            <small class="item-date-created-notes">22.08.2020</small>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
-                    <a class="create-note button transofrm-scale" href="">Создать заметку</a>
+                    <a class="create-note button transofrm-scale" href="{% url 'note-create' %}">Создать заметку</a>
                 </div>
             </div>
         </section>
-
-
-        {% for note in notes %}
-            <p>{{ note.name }} {{ note.group.name }}</p>
-        {% endfor %}
-
-        {% for note in notes %}
-            <p>{{ note.group.name }} {{ note.group.id }}</p>
-        {% endfor %}
 {% endblock %}

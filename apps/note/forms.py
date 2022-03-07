@@ -1,12 +1,20 @@
 from django import forms
 
 from extensions.forms import BaseFormMixin
-from note.models import Group
+from note.models import Group, Note
 
 
 class GroupCreateForm(BaseFormMixin, forms.ModelForm):
-    """Base group form"""
+    """Group create form"""
 
     class Meta:
         model = Group
         fields = ['name']
+
+
+class NoteCreateForm(BaseFormMixin, forms.ModelForm):
+    """Note create form"""
+
+    class Meta:
+        model = Note
+        fields = ['name', 'group', 'description']

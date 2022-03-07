@@ -6,7 +6,7 @@ from django.views.generic import DetailView, CreateView
 from django_filters.views import FilterView
 
 from note.filters import NoteFilterSet
-from note.forms import GroupCreateForm
+from note.forms import GroupCreateForm, NoteCreateForm
 from note.models import Group, Note
 from django.urls import reverse_lazy
 
@@ -72,10 +72,25 @@ class NoteDetailView(NoteBaseView, DetailView):  # TODO or UpdateView?
 
 
 @login_required
-def note_delete(request, pk):
+def note_delete(request, pk):  # TODO no work
     """Set note for await removal"""
 
     if note := Note.objects.filter(pk=pk).by_user(request.user).first():  # NOQA
         note.set_await_removal()
 
     return redirect('note')
+
+
+class NoteCreateView(NoteBaseView, CreateView):
+    """Create note view"""
+
+    model = Note
+    template_name = 'note/create_note.html'
+    form_class = NoteCreateForm
+    success_url = reverse_lazy('note')
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.user = self.request.user
+        instance.save()
+        return super(NoteCreateView, self).form_valid(form)

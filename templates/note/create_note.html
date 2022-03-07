@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+        <section>
+        <nav class="nav">
+            <ul class="item-nav">
+                <li><a class="link-nav hover-blue-color" href="{% url 'main' %}">На главную</a></li>
+            </ul>
+        </nav>
+        <div class="container-form">
+            <form class="base-form" action="." method="post" enctype="multipart/form-data">
+              {% for field in form %}
+                <p>{% if field.errors %} <small>{{ field.errors }}</small>{% endif %}{{ field }}</p>
+              {% endfor %}
+              {% csrf_token %}
+              <input class="button transofrm-scale" class="input-form" type="submit" value="Сохранить">
+            </form>
+        </div>
+        </section>
+{% endblock %}
