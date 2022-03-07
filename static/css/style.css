@@ -56,26 +56,12 @@ ul{
 .transofrm-scale:hover{
     transform: scale(1.04);
 }
+
+.hover-blue-color{
+    cursor: pointer;
+}
 .hover-blue-color:hover{
     color:rgb(30,144,255);
-}
-
-.size-nowrap-link{
-    width: calc(9.5vw + 9.5vh);
-    height: calc(2.7vw + 2.7vh);
-    white-space: nowrap;
-}
-
-.to-main-page{
-    position: absolute;
-    top:10%;
-    left: 30%;
-}
-
-.to-sign-in-up{
-    position: absolute;
-    top:10%;
-    left: 55%;
 }
 
 .container-form{
@@ -145,6 +131,21 @@ ul{
     font-size: calc(1.2vw + 1.2vh);
 }
 
+/*  -------------------------- SECTION NAVBAR  -------------------------------  */
+
+.item-nav{
+    display: flex;
+    justify-content: space-around;
+    margin-top: calc(2vw + 2vh);
+
+    font-size: calc(.8vw + .8vh);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.link-nav{
+    color: rgba(0, 0, 0, .7);
+}
 /*  -------------------------- SECTION NOTES  -------------------------------  */
 
 .section-notes{

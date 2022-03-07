@@ -3,8 +3,12 @@
 
 {% block content %}
     <section class="section-main">
-         <a href="{% url 'main' %}"><h3 class="to-main-page size-nowrap-link button transofrm-scale">На главную</h3></a>
-        <a href="{% url 'sign-up' %}"><h3 class="to-sign-in-up size-nowrap-link button transofrm-scale">Регистрация</h3></a>
+        <nav class="nav">
+            <ul class="item-nav">
+                <li><a class="link-nav hover-blue-color" href="{% url 'main' %}">На главную</a></li>
+                <li><a class="link-nav hover-blue-color" href="{% url 'sign-up' %}">Регистрация</a></li>
+            </ul>
+        </nav>
         <div class="container-form">
             <form class="base-form" action="." method="post" enctype="multipart/form-data">
               {% for field in form %}
