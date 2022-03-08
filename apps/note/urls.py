@@ -7,7 +7,8 @@ urlpatterns = [
     path('', views.main, name='main'),
 
     # group
-    path('group/create/', views.GroupCreateView.as_view(), name='create-group'),
+    path('group/create/', views.GroupCreateView.as_view(), name='group-create'),
+    path('groups/update/', views.groups_update, name='groups-update'),
 
     # note
     path('note/', views.NoteListView.as_view(), name='note'),

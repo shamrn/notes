@@ -2,11 +2,11 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, UpdateView
 from django_filters.views import FilterView
 
 from note.filters import NoteFilterSet
-from note.forms import GroupCreateForm, NoteCreateForm
+from note.forms import GroupCreateForm, NoteCreateForm, GroupsUpdateForm
 from note.models import Group, Note
 from django.urls import reverse_lazy
 
@@ -35,6 +35,21 @@ class GroupCreateView(LoginRequiredMixin, CreateView):
         return super(GroupCreateView, self).form_valid(form)
 
 
+@login_required
+def groups_update(request):
+    """Update groups. We get a list of changed groups as input"""
+
+    queryset = Group.objects.by_user(request.user)
+
+    if request.method == 'POST':
+        Group.bulk_update_name(queryset=queryset, data=request.POST)  # TODO
+
+        return redirect('note')
+
+    form = GroupsUpdateForm(queryset)
+    return render(request=request, template_name='note/update_group.html', context={'form': form})
+
+
 class NoteBaseView(LoginRequiredMixin):
     """Note base view"""
 
@@ -43,9 +58,9 @@ class NoteBaseView(LoginRequiredMixin):
     def get_queryset(self):
         return (super().get_queryset()  # NOQA
                 .by_user(self.request.user)  # NOQA
+                .filter(await_removal=False)
                 .select_related_group()
                 .order_by('-date_created'))
-        # TODO убрать из общего списка удаленные заметки
 
 
 class NoteListView(NoteBaseView, FilterView):

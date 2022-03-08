@@ -32,6 +32,15 @@ class Group(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def bulk_update_name(cls, queryset, data):
+        """Update name for groups"""
+
+        for group in queryset:
+            group.name = data[str(group.id)]
+
+        cls.objects.bulk_update(queryset, fields=['name'])
+
 
 class NoteQuerySet(models.QuerySet):
     """Query set for model note"""

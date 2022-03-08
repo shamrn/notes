@@ -9,7 +9,7 @@
                 <div class="section-notes-left">
                     <a href="{% url 'logout' %}"><h3 class="exit-notes button transofrm-scale">&#8617; Выход</h3></a>
                     <div class="container-group">
-                        <h3 class="title-group">Группы заметок <a class="edit-group hover-blue-color" href="#">&#9881;</a></h3>
+                        <h3 class="title-group">Группы заметок <a class="edit-group hover-blue-color" href="{% url 'groups-update' %}">&#9881;</a></h3>
                         <ul class="list-group">
                             <li class="item-group"><a class="hover-blue-color" href="{% url 'note' %}">Все заметки &rarr;</a></li>
                             {% for group in groups %}
@@ -17,7 +17,7 @@
                             {% endfor %}
                             <li class="item-group"><a class="hover-blue-color" href="{% url 'note' %}?group={{ group_deleted_number }}">{{ group_deleted_label }} &rarr;</a></li>
                         </ul>
-                        <p class="create-group"><a class="create-group-link" href="{% url 'create-group' %}">Создать группу</a></p>
+                        <p class="create-group"><a class="create-group-link" href="{% url 'group-create' %}">Создать группу</a></p>
                     </div>
                     <p class="count-notes">Колличество заметок: {{ quantity_notes }}</p>
                 </div>
