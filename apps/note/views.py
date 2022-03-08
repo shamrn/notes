@@ -60,7 +60,14 @@ class NoteListView(NoteBaseView, FilterView):
         """Added in context - list of user groups"""
 
         context = super(NoteListView, self).get_context_data(**kwargs)
-        context.update({'groups': Group.objects.by_user(self.request.user)})
+        context.update(
+            {
+                'groups': Group.objects.by_user(self.request.user),
+                'group_deleted_label': Group.deleted_label,
+                'group_deleted_number': Group.deleted_number,
+                'quantity_notes': 234325,  # TODO перехватить django запрос?
+             }
+        )
         return context
 
 

@@ -17,6 +17,8 @@
 html{
     font-family: 'Igra Sans';
     font-size: calc(1vw + 1vh);
+
+    background-color: rgba(220,220,220, .3);
 }
 
 a{
@@ -101,17 +103,6 @@ textarea{
 
 /*  -------------------------- SECTION MAIN  -------------------------------  */
 
-
-.languages-main{
-    padding-top: calc(.5vw + .5vh);
-    padding-left: calc(1vw + 1vh);
-}
-
-.language-main{
-    margin-top: calc(1vw + 1vh);
-    color:red;
-}
-
 .section-main{
     overflow: hidden;
     width: 100vw;
@@ -137,11 +128,17 @@ textarea{
 
 /*  -------------------------- SECTION NAVBAR  -------------------------------  */
 
+.nav{
+    height: calc(3vw + 3vh);
+    margin-left: calc(4vw + 4vh);
+    margin-right: calc(4vw + 4vh);
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
 .item-nav{
     display: flex;
+    height: calc(3vw + 3vh);
     justify-content: space-around;
-    margin-top: calc(2vw + 2vh);
-
+    align-items: center;
     font-size: calc(.8vw + .8vh);
     font-weight: 600;
     text-transform: uppercase;
@@ -151,12 +148,6 @@ textarea{
     color: rgba(0, 0, 0, .7);
 }
 /*  -------------------------- SECTION NOTES  -------------------------------  */
-
-.section-notes{
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(220,220,220, .3);
-}
 
 .container-notes{
     display: flex;
@@ -173,7 +164,7 @@ textarea{
 /*  -------------------------- SECTION NOTES LEFT  -------------------------------  */
 
 .section-notes-left{
-    width: 25%;
+    width: 30%;
     margin-top: calc(5vw + 5vh);
 }
 
@@ -228,7 +219,7 @@ textarea{
 /*  -------------------------- SECTION NOTES RIGHT  -------------------------------  */
 
 .section-notes-right{
-    width: 75%;
+    width: 70%;
     margin-top: calc(5vw + 5vh);
 }
 

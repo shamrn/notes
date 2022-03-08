@@ -11,20 +11,20 @@
                     <div class="container-group">
                         <h3 class="title-group">Группы заметок <a class="edit-group hover-blue-color" href="#">&#9881;</a></h3>
                         <ul class="list-group">
-                            <li class="item-group"><a class="hover-blue-color" href="#">Все заметки &rarr;</a></li>
+                            <li class="item-group"><a class="hover-blue-color" href="{% url 'note' %}">Все заметки &rarr;</a></li>
                             {% for group in groups %}
-                                <li class="item-group"><a class="hover-blue-color" href="#">{{ group }} &rarr;</a></li>
+                                <li class="item-group"><a class="hover-blue-color" href="{% url 'note' %}?group={{ group.id }}">{{ group }} &rarr;</a></li>
                             {% endfor %}
-                            <li class="item-group"><a class="hover-blue-color" href="#">Удаленные &rarr;</a></li>
+                            <li class="item-group"><a class="hover-blue-color" href="{% url 'note' %}?group={{ group_deleted_number }}">{{ group_deleted_label }} &rarr;</a></li>
                         </ul>
                         <p class="create-group"><a class="create-group-link" href="{% url 'create-group' %}">Создать группу</a></p>
                     </div>
-                    <p class="count-notes">Колличество заметок: 32</p>
+                    <p class="count-notes">Колличество заметок: {{ quantity_notes }}</p>
                 </div>
                 <div class="section-notes-right">
                 <div class="header-notes">
                         <h3 class="title-notes">Все заметки</h3>
-                        <form class="form-notes" action="" method="get">
+                        <form class="form-notes" action="." method="get">
                             <input class="input-notes" name="search" placeholder="Поиск" type="search">
                         </form>
 
@@ -32,8 +32,8 @@
                             <small class="sort-notes hover-blue-color">Сортировать &darr;</small>
                             <div class="dropdown-content">
                                 <ul>
-                                    <li><a class="sort-item-notes hover-blue-color" href="#">Сначала старые</a></li>
-                                    <li><a class="sort-item-notes" href="#">Сначала новые</a></li>
+                                    <li><a class="sort-item-notes hover-blue-color" href="?old_date_created=True">Сначала старые</a></li>
+                                    <li><a class="sort-item-notes hover-blue-color" href="?old_date_created=False">Сначала новые</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -44,9 +44,9 @@
                         {% for note in notes %}
                         <li class="item-notes transofrm-scale">
                             <h3 class="item-title-notes">{{ note.name }}</h3>
-                            <p class="item-desc-notes">{{ note.description|truncatechars:30 }}...</p>
+                            <p class="item-desc-notes">{{ note.description|truncatechars:40 }}...</p>
                             <small class="item-group-notes">{{ note.group.name }}</small><br>
-                            <small class="item-date-created-notes">{{ note.date_created }}</small>
+                            <small class="item-date-created-notes">{{ note.date_created|date:"Y-m-d h:m" }}</small>
                         </li>
                         {% endfor %}
                     </ul>
