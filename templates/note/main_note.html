@@ -22,11 +22,17 @@
                         </ul>
                         <p class="create-group"><a class="create-group-link" href="{% url 'group-create' %}">Создать группу</a></p>
                     </div>
-                    <p class="count-notes">Колличество заметок: {{ quantity_notes }}</p>
+                    <p class="count-notes">Колличество заметок: {{ notes|length }}</p>
                 </div>
                 <div class="section-notes-right">
                 <div class="header-notes">
-                        <h3 class="title-notes">Все заметки</h3>
+                        {% if query_group_id == '-1' %}
+                            <h3 class="title-notes">{{ group_deleted_label }}</h3>
+                        {% elif not query_group_id %}
+                          <h3 class="title-notes">Все заметки</h3>
+                        {% else %}
+                            <h3 class="title-notes">{{ groups.first.name }}</h3>
+                        {% endif %}
                         <form class="form-notes" action="." method="get">
                             <input class="input-notes" name="search" placeholder="Поиск" type="search">
                         </form>
@@ -46,8 +52,8 @@
                     <ul class="list-notes">
                         {% for note in notes %}
                         <li class="item-notes transofrm-scale">
-                            <h3 class="item-title-notes">{{ note.name }}</h3>
-                            <p class="item-desc-notes">{{ note.description|truncatechars:40 }}...</p>
+                            <h3 class="item-title-notes">{{ note.name|truncatechars:30 }}</h3>
+                            <p class="item-desc-notes">{{ note.description|truncatechars:60 }}...</p>
                             <small class="item-group-notes">{{ note.group.name }}</small><br>
                             <small class="item-date-created-notes">{{ note.date_created|date:"Y-m-d h:m" }}</small>
                         </li>

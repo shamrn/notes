@@ -289,6 +289,9 @@ ul{
 }
 
 .item-notes{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
     width: 32%;
     height: calc(7.5vw + 7.5vh);
     margin-top: calc(1vw + 1vh);

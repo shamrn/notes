@@ -25,7 +25,7 @@ class Group(models.Model):
     deleted_label = 'Удаленные'
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField('Название', unique=True, max_length=100)
+    name = models.CharField('Название', max_length=100)
 
     objects = models.Manager.from_queryset(GroupQuerySet)()
 
@@ -92,9 +92,9 @@ class Note(models.Model):
     """Model note"""
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField('Название', max_length=100)
-    group = models.OneToOneField(Group, on_delete=models.SET_NULL,
-                                 blank=True, null=True, verbose_name='Группа')
+    name = models.CharField('Название', max_length=50)
+    group = models.ForeignKey(Group, on_delete=models.SET_NULL,
+                              blank=True, null=True, verbose_name='Группа')
     description = models.TextField('Текст заметки')
     date_created = models.DateTimeField('Дата создания', auto_now_add=True)
 

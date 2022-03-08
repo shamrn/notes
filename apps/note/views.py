@@ -76,7 +76,6 @@ class NoteListView(NoteBaseView, FilterView):
 
     template_name = 'note/main_note.html'
     context_object_name = 'notes'
-    paginate_by = 20
     filterset_class = NoteFilterSet
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -88,7 +87,7 @@ class NoteListView(NoteBaseView, FilterView):
                 'groups': Group.objects.by_user(self.request.user),
                 'group_deleted_label': Group.deleted_label,
                 'group_deleted_number': Group.deleted_number,
-                'quantity_notes': 234325,  # TODO перехватить django запрос?
+                'query_group_id': self.request.GET.get('group'),
              }
         )
         return context
@@ -99,16 +98,6 @@ class NoteDetailView(NoteBaseView, DetailView):  # TODO or UpdateView?
 
     template_name = 'note/detail_note.html'
     context_object_name = 'note'
-
-
-@login_required
-def note_delete(request, pk):  # TODO no work
-    """Set note for await removal"""
-
-    if note := Note.objects.filter(pk=pk).by_user(request.user).first():  # NOQA
-        note.set_await_removal()
-
-    return redirect('note')
 
 
 class NoteCreateView(NoteBaseView, CreateView):
@@ -124,3 +113,16 @@ class NoteCreateView(NoteBaseView, CreateView):
         instance.user = self.request.user
         instance.save()
         return super(NoteCreateView, self).form_valid(form)
+
+
+@login_required
+def note_delete(request, pk):  # TODO no work
+    """Set note for await removal"""
+
+    if note := Note.objects.filter(pk=pk).by_user(request.user).first():  # NOQA
+        note.set_await_removal()
+
+    return redirect('note')
+
+
+
