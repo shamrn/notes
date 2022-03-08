@@ -9,7 +9,10 @@
                 <div class="section-notes-left">
                     <a href="{% url 'logout' %}"><h3 class="exit-notes button transofrm-scale">&#8617; Выход</h3></a>
                     <div class="container-group">
-                        <h3 class="title-group">Группы заметок <a class="edit-group hover-blue-color" href="{% url 'groups-update' %}">&#9881;</a></h3>
+                        <h3 class="title-group">
+                            Группы заметок
+                            {% if groups|length >= 1 %}<a class="edit-group hover-blue-color" href="{% url 'groups-update' %}">&#9881;</a>{% endif %}
+                        </h3>
                         <ul class="list-group">
                             <li class="item-group"><a class="hover-blue-color" href="{% url 'note' %}">Все заметки &rarr;</a></li>
                             {% for group in groups %}

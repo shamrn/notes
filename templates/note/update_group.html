@@ -10,17 +10,11 @@
         </nav>
         <div class="container-form">
             <form class="base-form" action="." method="post" enctype="multipart/form-data">
-{#              {% for group in groups %}#}
-{#                <input type="text" name="name" maxlength="100" class="form-field" value="{{ group.name }}">#}
-{#                  <a href="#">Удалить</a>#}
-{#                  <br>#}
-{#                  #}
-{#              {% endfor %}#}
-                {% for field in form %}
-                <p>{{ field }}</p>
+                {% for field, note in united_data %}
+                <p>{{ field }}<a class="delete-link" href="{% url 'group-delete' note.id %}">&#10006;</a></p>
                 {% endfor %}
               {% csrf_token %}
-              <input class="button transofrm-scale" class="input-form" type="submit" value="Сохранить">
+              <input class="button-save button transofrm-scale" class="input-form" type="submit" value="Сохранить">
             </form>
         </div>
         </section>

@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView, CreateView, UpdateView
+from django.views.generic import DetailView, CreateView, DeleteView
 from django_filters.views import FilterView
 
 from note.filters import NoteFilterSet
@@ -37,9 +37,10 @@ class GroupCreateView(LoginRequiredMixin, CreateView):
 
 @login_required
 def groups_update(request):
-    """Update groups. We get a list of changed groups as input"""
+    """Bulk update for groups field is 'name' """
 
-    queryset = Group.objects.by_user(request.user)
+    queryset = Group.objects.by_user(request.user).order_by('pk')
+    # order for zip, in template render 2 objects ( form and queryset )
 
     if request.method == 'POST':
         Group.bulk_update_name(queryset=queryset, data=request.POST)  # TODO
@@ -47,7 +48,14 @@ def groups_update(request):
         return redirect('note')
 
     form = GroupsUpdateForm(queryset)
-    return render(request=request, template_name='note/update_group.html', context={'form': form})
+    context = {'united_data': zip(form, queryset)}
+    return render(request=request, template_name='note/update_group.html', context=context)
+
+
+class GroupDeleteView(LoginRequiredMixin, DeleteView):
+    model = Group
+    template_name = 'note/group_delete.html'
+    success_url = reverse_lazy('note')
 
 
 class NoteBaseView(LoginRequiredMixin):
