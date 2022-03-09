@@ -41,8 +41,18 @@
                             <small class="sort-notes hover-blue-color">Сортировать &darr;</small>
                             <div class="dropdown-content">
                                 <ul>
-                                    <li><a class="sort-item-notes hover-blue-color" href="?old_date_created=True">Сначала старые</a></li>
-                                    <li><a class="sort-item-notes hover-blue-color" href="?old_date_created=False">Сначала новые</a></li>
+                                    <li>
+                                        <a class="sort-item-notes hover-blue-color"
+                                           href="{{ current_url }}{% if 'group' in current_url or 'search' in current_url %}&{% else %}?{% endif %}old_date_created=True">
+                                            Сначала старые
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="sort-item-notes hover-blue-color"
+                                           href="{{ current_url }}{% if 'group' in current_url or 'search' in current_url %}&{% else %}?{% endif %}old_date_created=False">
+                                            Сначала новые
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

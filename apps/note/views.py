@@ -79,7 +79,7 @@ class NoteListView(NoteBaseView, FilterView):
     filterset_class = NoteFilterSet
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        """Added in context - list of user groups"""
+        """Overridden method 'get_context_data' Added in context - list of user groups"""
 
         context = super(NoteListView, self).get_context_data(**kwargs)
         context.update(
@@ -88,9 +88,33 @@ class NoteListView(NoteBaseView, FilterView):
                 'group_deleted_label': Group.deleted_label,
                 'group_deleted_number': Group.deleted_number,
                 'query_group_id': self.request.GET.get('group'),
+                'current_url': self.current_url,
              }
         )
         return context
+
+    @property
+    def current_url(self) -> str:
+        """Return the url with get parameters, for united filter"""
+
+        required_filter_fields = ['group', 'search', 'old_date_created']
+
+        if list(filter(lambda field: field not in self.filterset_class.get_filters().keys(),
+                       required_filter_fields)):
+
+            raise AttributeError(f'One of the required fields for filtering is missing,'
+                                 f' the required filter fields: {required_filter_fields}')
+
+        current_url = '/note/'
+        full_path = self.request.get_full_path()
+
+        if 'search' in full_path or 'group' in full_path:
+            if full_path.count('old_date_created') >= 1:
+                current_url = full_path.split('&')[0]
+            else:
+                current_url = full_path
+
+        return current_url
 
 
 class NoteDetailView(NoteBaseView, DetailView):  # TODO or UpdateView?
@@ -109,12 +133,16 @@ class NoteCreateView(NoteBaseView, CreateView):
     success_url = reverse_lazy('note')
 
     def form_valid(self, form):
+        """Overridden method 'form_valid' to add a user to instance"""
+
         instance = form.save(commit=False)
         instance.user = self.request.user
         instance.save()
         return super(NoteCreateView, self).form_valid(form)
 
     def get_form(self, *args, **kwargs):
+        """Overridden method 'get_form' to sort groups by user"""
+
         form = super(NoteCreateView, self).get_form(*args, **kwargs)
         form.fields['group'].queryset = Group.objects.by_user(self.request.user)
         return form
