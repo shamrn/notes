@@ -2,13 +2,13 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import DetailView, CreateView, DeleteView
 from django_filters.views import FilterView
 
 from note.filters import NoteFilterSet
 from note.forms import GroupCreateForm, NoteCreateForm, GroupsUpdateForm
 from note.models import Group, Note
-from django.urls import reverse_lazy
 
 
 def main(request):
@@ -114,6 +114,11 @@ class NoteCreateView(NoteBaseView, CreateView):
         instance.save()
         return super(NoteCreateView, self).form_valid(form)
 
+    def get_form(self, *args, **kwargs):
+        form = super(NoteCreateView, self).get_form(*args, **kwargs)
+        form.fields['group'].queryset = Group.objects.by_user(self.request.user)
+        return form
+
 
 @login_required
 def note_delete(request, pk):  # TODO no work
@@ -123,6 +128,3 @@ def note_delete(request, pk):  # TODO no work
         note.set_await_removal()
 
     return redirect('note')
-
-
-
