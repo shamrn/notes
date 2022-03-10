@@ -12,7 +12,7 @@ Requirements:
 ----
 
 Запуск локальной версии проекта:
-- Склонировать проект ( git clone ...)
+- Склонировать проект ( git clone git@github.com:shamrn/notes.git )
 - В директории проекта собрать docker - образ ( docker-compose build )
 - Запустить docker образ ( docker-compose up )
 - Применить миграции ( docker-compose run app python manage.py migrate )
