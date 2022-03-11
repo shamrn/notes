@@ -97,7 +97,7 @@ class NoteListView(NoteBaseView, FilterView):
     def current_url(self) -> str:
         """Return the url with get parameters, for united filter"""
 
-        required_filter_fields = ['group', 'search', 'old_date_created']
+        required_filter_fields = ['group', 'search', 'order']
 
         if list(filter(lambda field: field not in self.filterset_class.get_filters().keys(),
                        required_filter_fields)):
@@ -109,7 +109,7 @@ class NoteListView(NoteBaseView, FilterView):
         full_path = self.request.get_full_path()
 
         if 'search' in full_path or 'group' in full_path:
-            if full_path.count('old_date_created') >= 1:
+            if full_path.count('order') >= 1:
                 current_url = full_path.split('&')[0]
             else:
                 current_url = full_path

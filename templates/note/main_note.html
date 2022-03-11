@@ -43,13 +43,13 @@
                                 <ul>
                                     <li>
                                         <a class="sort-item-notes hover-blue-color"
-                                           href="{{ current_url }}{% if 'group' in current_url or 'search' in current_url %}&{% else %}?{% endif %}old_date_created=True">
+                                           href="{{ current_url }}{% if 'group' in current_url or 'search' in current_url %}&{% else %}?{% endif %}order=date_created">
                                             Сначала старые
                                         </a>
                                     </li>
                                     <li>
                                         <a class="sort-item-notes hover-blue-color"
-                                           href="{{ current_url }}{% if 'group' in current_url or 'search' in current_url %}&{% else %}?{% endif %}old_date_created=False">
+                                           href="{{ current_url }}{% if 'group' in current_url or 'search' in current_url %}&{% else %}?{% endif %}order=-date_created">
                                             Сначала новые
                                         </a>
                                     </li>
