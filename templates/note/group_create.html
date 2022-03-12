@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-        <section>
+        <section class="section-main">
         <nav class="nav">
             <ul class="item-nav">
                 <li><a class="link-nav hover-blue-color" href="{% url 'main' %}">На главную</a></li>
@@ -14,8 +14,7 @@
                 <p>{% if field.errors %} <small>{{ field.errors }}</small>{% endif %}{{ field }}</p>
               {% endfor %}
               {% csrf_token %}
-              <input class="button transofrm-scale" class="input-form" type="submit" value="Сохранить">
-              <button class="button transofrm-scale" onclick="document.location='{% url 'note-delete' note.id %}">Удалить</button>
+              <input class="button transofrm-scale" type="submit" value="Сохранить">
             </form>
         </div>
         </section>

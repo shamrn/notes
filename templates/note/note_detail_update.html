@@ -2,19 +2,21 @@
 {% load static %}
 
 {% block content %}
-        <section class="section-main">
+        <section>
         <nav class="nav">
             <ul class="item-nav">
                 <li><a class="link-nav hover-blue-color" href="{% url 'main' %}">На главную</a></li>
             </ul>
         </nav>
-        <div class="container-form">
+        <div class="container-form container-form-detail-update ">
             <form class="base-form" action="." method="post" enctype="multipart/form-data">
               {% for field in form %}
                 <p>{% if field.errors %} <small>{{ field.errors }}</small>{% endif %}{{ field }}</p>
               {% endfor %}
               {% csrf_token %}
-              <input class="button transofrm-scale" class="input-form" type="submit" value="Сохранить">
+              <p>
+                <input class="button transofrm-scale" type="submit" value="Изменить">
+                <input class="button button-delete transofrm-scale" type="button" value="Удалить" onClick="window.location='{% url 'note-delete' note.id %}'"/></p>
             </form>
         </div>
         </section>

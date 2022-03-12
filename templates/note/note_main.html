@@ -5,7 +5,6 @@
 
            <section class="section-notes">
             <div class="container-notes">
-
                 <div class="section-notes-left">
                     <a href="{% url 'logout' %}"><h3 class="exit-notes button transofrm-scale">&#8617; Выход</h3></a>
                     <div class="container-group">
@@ -67,12 +66,13 @@
                     <ul class="list-notes">
                         {% for note in notes %}
                         <li class="item-notes transofrm-scale">
-                            <a href="{% url 'note-detail-update' note.pk %}" class="item-notes-link">
+                            <a {% if query_group_id == '-1' %}{% else %}href="{% url 'note-detail-update' note.pk %}"{% endif %} class="item-notes-link">
                             <h3 class="item-title-notes">{{ note.name|truncatechars:30 }}</h3>
                             <p class="item-desc-notes">{{ note.description|truncatechars:60 }}...</p>
                             <small class="item-group-notes">{{ note.group.name }}</small><br>
                             <small class="item-date-created-notes">{{ note.date_created|date:"Y-m-d h:m" }}</small>
                             </a>
+                            {% if query_group_id == '-1' %} <a class="item-restore-notes" href="{% url 'note-restore' note.pk %}">Восстановить</a>{% endif %}
                         </li>
                         {% endfor %}
                     </ul>

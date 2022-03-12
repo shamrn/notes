@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
@@ -24,7 +25,7 @@ class GroupCreateView(LoginRequiredMixin, CreateView):
     """Group create view"""
 
     model = Group
-    template_name = 'note/create_group.html'
+    template_name = 'note/group_create.html'
     form_class = GroupCreateForm
     success_url = reverse_lazy('note')
 
@@ -49,7 +50,8 @@ def groups_update(request):
 
     form = GroupsUpdateForm(queryset)
     context = {'united_data': zip(form, queryset)}
-    return render(request=request, template_name='note/update_group.html', context=context)
+    return render(request=request, template_name='note/group_update.html',
+                  context=context)
 
 
 class GroupDeleteView(LoginRequiredMixin, DeleteView):
@@ -64,17 +66,21 @@ class NoteBaseView(LoginRequiredMixin):
     model = Note
 
     def get_queryset(self):
-        return (super().get_queryset()  # NOQA
-                .by_user(self.request.user)  # NOQA
-                .filter(await_removal=False)
-                .select_related_group()
-                .order_by('-date_created'))
+        queryset = (super().get_queryset()  # NOQA
+                    .by_user(self.request.user)  # NOQA
+                    .select_related('group')
+                    .order_by('-date_created'))
+
+        if 'group' not in self.request.GET.keys():  # NOQA
+            queryset = queryset.filter(await_removal=False)
+
+        return queryset
 
 
 class NoteListView(NoteBaseView, FilterView):
     """Note list view"""
 
-    template_name = 'note/main_note.html'
+    template_name = 'note/note_main.html'
     context_object_name = 'notes'
     filterset_class = NoteFilterSet
 
@@ -89,7 +95,7 @@ class NoteListView(NoteBaseView, FilterView):
                 'group_deleted_number': Group.deleted_number,
                 'query_group_id': self.request.GET.get('group'),
                 'current_url': self.current_url,
-             }
+            }
         )
         return context
 
@@ -99,11 +105,12 @@ class NoteListView(NoteBaseView, FilterView):
 
         required_filter_fields = ['group', 'search', 'order']
 
-        if list(filter(lambda field: field not in self.filterset_class.get_filters().keys(),
-                       required_filter_fields)):
-
-            raise AttributeError(f'One of the required fields for filtering is missing,'
-                                 f' the required filter fields: {required_filter_fields}')
+        if list(filter(
+                lambda field: field not in self.filterset_class.get_filters().keys(),
+                required_filter_fields)):
+            raise AttributeError(
+                f'One of the required fields for filtering is missing,'
+                f' the required filter fields: {required_filter_fields}')
 
         current_url = '/note/'
         full_path = self.request.get_full_path()
@@ -120,7 +127,7 @@ class NoteListView(NoteBaseView, FilterView):
 class NoteCreateView(NoteBaseView, CreateView):
     """Create note view"""
 
-    template_name = 'note/create_note.html'
+    template_name = 'note/note_create.html'
     form_class = NoteCreateForm
     success_url = reverse_lazy('note')
 
@@ -143,20 +150,31 @@ class NoteCreateView(NoteBaseView, CreateView):
 class NoteDetailUpdateView(NoteCreateView, UpdateView):
     """Note detail update view"""
 
-    template_name = 'note/detail_update_note.html'
+    template_name = 'note/note_detail_update.html'
     form_class = NoteUpdateForm
 
 
 class NoteDeleteView(LoginRequiredMixin, DeleteView):
-    model = Group
+    """Note delete view"""
+
+    model = Note
     template_name = 'note/note_delete.html'
     success_url = reverse_lazy('note')
 
+    def form_valid(self, form):
+        """Overridden method 'form_valid' Changing the standard delete to call
+        the "set_await_removal" method"""
+
+        success_url = self.get_success_url()
+        self.object.set_await_removal()
+        return HttpResponseRedirect(success_url)
+
+
 @login_required
-def note_delete(request, pk):  # TODO no work
-    """Set note for await removal"""
+def restore_note(request, pk):
+    """Restore note view"""
 
     if note := Note.objects.filter(pk=pk).by_user(request.user).first():  # NOQA
-        note.set_await_removal()
+        note.restore()
 
     return redirect('note')

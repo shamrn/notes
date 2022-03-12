@@ -68,11 +68,6 @@ class NoteQuerySet(models.QuerySet):
 
         return self.by_await_removal().filter(date_removed__lte=datetime.now())
 
-    def select_related_group(self) -> Union['NoteQuerySet', models.QuerySet]:  # TODO uses 1
-        """Join with model - group"""
-
-        return self.select_related('group')
-
     def annotate_trigram_similarity(self, value: str) -> Union['NoteQuerySet', models.QuerySet]:
         """Trigram similarity for field 'name' and 'description'"""
 
@@ -107,9 +102,18 @@ class Note(models.Model):
     def __str__(self):
         return self.name
 
-    def set_await_removal(self):  # TODO no used
+    def set_await_removal(self):
         """Set await removal note"""
 
-        self.date_removed = datetime.now() + timedelta(days=settings.DAYS_BEFORE_REMOVAL)
-        self.await_removal = True
-        self.save(update_fields=['await_removal', 'date_removed'])
+        if not self.await_removal:
+            self.date_removed = datetime.now() + timedelta(days=settings.DAYS_BEFORE_REMOVAL)
+            self.await_removal = True
+            self.save(update_fields=['await_removal', 'date_removed'])
+
+    def restore(self):
+        """Restore with await removal note"""
+
+        if self.await_removal:
+            self.date_removed = None
+            self.await_removal = False
+            self.save(update_fields=['await_removal', 'date_removed'])

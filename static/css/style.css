@@ -299,7 +299,6 @@ ul{
     background-color: white;
     border-radius: calc(.4vw + .4vh);
     box-shadow: 0px 0px transparent, 0px 5px 10px rgba(30,144,255, 0.20);
-    cursor: pointer;
 }
 
 .item-notes:hover{
@@ -319,9 +318,25 @@ ul{
     margin-top: calc(.5vw + .5vh);
 } 
 
-
 .item-title-notes{
     text-align: center;
+}
+
+.item-restore-notes{
+    text-align: center;
+    color:rgb(30,144,255);
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: calc(.3vw + .3vh);
+    transition: transform .27s;
+}
+
+.item-restore-notes:hover{
+        transform: scale(1.04);
+}
+
+.create-group:hover {
+    transform: scale(1.04);
 }
 
 .create-note{
@@ -334,4 +349,8 @@ ul{
 .form-field-desc{
     width: calc(26vw + 26vh);
     height: calc(12vw + 12vh);
+}
+
+.button-delete{
+   background-color:rgba(214, 3, 0, .8);;
 }
