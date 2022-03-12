@@ -1,6 +1,7 @@
 import django_filters as filters
-from note.models import Group
+
 from extensions.validators import empty_value
+from note.models import Group
 
 
 class NoteFilterSet(filters.FilterSet):

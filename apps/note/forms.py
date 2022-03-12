@@ -22,7 +22,7 @@ class GroupsUpdateForm(forms.Form):
         self._make_fields()
 
     def _make_fields(self):
-        name_field = Group.name.field
+        name_field = Group.name.field  # NOQA
 
         for note in self.queryset:
             field = forms.CharField()

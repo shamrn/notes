@@ -44,7 +44,7 @@ def groups_update(request):
     # order for zip, in template render 2 objects ( form and queryset )
 
     if request.method == 'POST':
-        Group.bulk_update_name(queryset=queryset, data=request.POST)  # TODO
+        Group.bulk_update_name(queryset=queryset, data=request.POST)
 
         return redirect('note')
 

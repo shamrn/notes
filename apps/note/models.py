@@ -63,7 +63,7 @@ class NoteQuerySet(models.QuerySet):
 
         return self.filter(group=group_id)
 
-    def by_past_date_deletion(self) -> Union['NoteManager', models.QuerySet]:  # TODO no used
+    def by_past_date_deletion(self) -> Union['NoteQuerySet', models.QuerySet]:
         """Check the note for the deletion date and return the queryset for deletion"""
 
         return self.by_await_removal().filter(date_removed__lte=datetime.now())
@@ -75,12 +75,6 @@ class NoteQuerySet(models.QuerySet):
             trigram_similarity=greatest_trigram_similarity(
                 fields=['name', 'description'], value=value
             ))
-
-
-class NoteManager(models.Manager):
-    """Manager for models note"""
-
-    # TODO no used
 
 
 class Note(models.Model):
@@ -97,7 +91,7 @@ class Note(models.Model):
     await_removal = models.BooleanField(default=False)
     date_removed = models.DateTimeField('Дата удаления', null=True, blank=True)
 
-    objects = NoteManager.from_queryset(NoteQuerySet)()
+    objects = models.Manager.from_queryset(NoteQuerySet)()
 
     def __str__(self):
         return self.name
