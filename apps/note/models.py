@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta
 from typing import Union
 
+from django.conf import settings
 from django.db import models
 
 from account.models import User
 from extensions.filters import greatest_trigram_similarity
-from django.conf import settings
 
 
 class GroupQuerySet(models.QuerySet):

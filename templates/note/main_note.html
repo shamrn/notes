@@ -26,13 +26,22 @@
                 </div>
                 <div class="section-notes-right">
                 <div class="header-notes">
-                        {% if query_group_id == '-1' %}
-                            <h3 class="title-notes">{{ group_deleted_label }}</h3>
-                        {% elif not query_group_id %}
-                          <h3 class="title-notes">Все заметки</h3>
-                        {% else %}
-                            <h3 class="title-notes">{{ groups.first.name }}</h3>
-                        {% endif %}
+{#                  {% if not query_group_id %}#}
+{#                    <h3 class="title-notes">Все заметки</h3>#}
+{#                  {% else %}#}
+{#                    <h3 class="title-notes">{{ group_label }}</h3>#}
+
+                    {% if not query_group_id %}
+                         <h3 class="title-notes">Все заметки</h3>
+                    {% elif query_group_id == '-1' %}
+                         <h3 class="title-notes">{{ group_deleted_label }}</h3>
+                    {% else %}
+                        {% for group in groups %}
+                            {% if group.id|slugify == query_group_id  %}
+                             <h3 class="title-notes">{{ group.name }}</h3>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                         <form class="form-notes" action="." method="get">
                             <input class="input-notes" name="search" placeholder="Поиск" type="search">
                         </form>
