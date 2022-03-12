@@ -9,3 +9,6 @@ django-extensions==3.1.5
 
 # Django filter
 django-filter==21.1
+
+# Django crontab for periodic tasks
+django-crontab==0.7.1

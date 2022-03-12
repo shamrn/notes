@@ -51,6 +51,7 @@ DJANGO_APPS = [
 EXTERNAL_APPS = [
     'django_extensions',
     'django_filters',
+    'django_crontab'
 ]
 
 PROJECT_APPS = [
@@ -156,6 +157,7 @@ MEDIA_URL = '/media/'
 
 # --------------------------------------------------------------------------------------------------
 # Auth and user settings
+
 AUTH_USER_MODEL = 'account.User'
 
 # Redirect user
@@ -165,10 +167,21 @@ LOGOUT_REDIRECT_URL = 'main'
 
 # --------------------------------------------------------------------------------------------------
 # Note settings
+
 DAYS_BEFORE_REMOVAL = 30
 
-# Logging
+
 # --------------------------------------------------------------------------------------------------
+# CRON
+
+CRONJOBS = [
+    ('1 * * * *', 'note.cron.periodic_task_delete_note')
+]
+
+
+# --------------------------------------------------------------------------------------------------
+# Logging
+
 LOGGING = {
     'version': 1,
     'filters': {
