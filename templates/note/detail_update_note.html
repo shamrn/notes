@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-        <section class="section-main">
+        <section>
         <nav class="nav">
             <ul class="item-nav">
                 <li><a class="link-nav hover-blue-color" href="{% url 'main' %}">На главную</a></li>
@@ -10,11 +10,12 @@
         </nav>
         <div class="container-form">
             <form class="base-form" action="." method="post" enctype="multipart/form-data">
-                {% for field, group in united_data %}
-                <p>{{ field }}<a class="delete-link" href="{% url 'group-delete' group.id %}">&#10006;</a></p>
-                {% endfor %}
+              {% for field in form %}
+                <p>{% if field.errors %} <small>{{ field.errors }}</small>{% endif %}{{ field }}</p>
+              {% endfor %}
               {% csrf_token %}
-              <input class="button-save button transofrm-scale" class="input-form" type="submit" value="Сохранить">
+              <input class="button transofrm-scale" class="input-form" type="submit" value="Сохранить">
+              <button class="button transofrm-scale" onclick="document.location='{% url 'note-delete' note.id %}">Удалить</button>
             </form>
         </div>
         </section>

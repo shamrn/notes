@@ -3,11 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, CreateView, DeleteView
+from django.views.generic import CreateView, DeleteView, UpdateView
 from django_filters.views import FilterView
 
 from note.filters import NoteFilterSet
-from note.forms import GroupCreateForm, NoteCreateForm, GroupsUpdateForm
+from note.forms import GroupCreateForm, NoteCreateForm, GroupsUpdateForm, NoteUpdateForm
 from note.models import Group, Note
 
 
@@ -117,17 +117,9 @@ class NoteListView(NoteBaseView, FilterView):
         return current_url
 
 
-class NoteDetailView(NoteBaseView, DetailView):  # TODO or UpdateView?
-    """Note detail view"""
-
-    template_name = 'note/detail_note.html'
-    context_object_name = 'note'
-
-
 class NoteCreateView(NoteBaseView, CreateView):
     """Create note view"""
 
-    model = Note
     template_name = 'note/create_note.html'
     form_class = NoteCreateForm
     success_url = reverse_lazy('note')
@@ -138,15 +130,27 @@ class NoteCreateView(NoteBaseView, CreateView):
         instance = form.save(commit=False)
         instance.user = self.request.user
         instance.save()
-        return super(NoteCreateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_form(self, *args, **kwargs):
         """Overridden method 'get_form' to sort groups by user"""
 
-        form = super(NoteCreateView, self).get_form(*args, **kwargs)
+        form = super().get_form(*args, **kwargs)
         form.fields['group'].queryset = Group.objects.by_user(self.request.user)
         return form
 
+
+class NoteDetailUpdateView(NoteCreateView, UpdateView):
+    """Note detail update view"""
+
+    template_name = 'note/detail_update_note.html'
+    form_class = NoteUpdateForm
+
+
+class NoteDeleteView(LoginRequiredMixin, DeleteView):
+    model = Group
+    template_name = 'note/note_delete.html'
+    success_url = reverse_lazy('note')
 
 @login_required
 def note_delete(request, pk):  # TODO no work

@@ -26,10 +26,6 @@
                 </div>
                 <div class="section-notes-right">
                 <div class="header-notes">
-{#                  {% if not query_group_id %}#}
-{#                    <h3 class="title-notes">Все заметки</h3>#}
-{#                  {% else %}#}
-{#                    <h3 class="title-notes">{{ group_label }}</h3>#}
 
                     {% if not query_group_id %}
                          <h3 class="title-notes">Все заметки</h3>
@@ -71,10 +67,12 @@
                     <ul class="list-notes">
                         {% for note in notes %}
                         <li class="item-notes transofrm-scale">
+                            <a href="{% url 'note-detail-update' note.pk %}" class="item-notes-link">
                             <h3 class="item-title-notes">{{ note.name|truncatechars:30 }}</h3>
                             <p class="item-desc-notes">{{ note.description|truncatechars:60 }}...</p>
                             <small class="item-group-notes">{{ note.group.name }}</small><br>
                             <small class="item-date-created-notes">{{ note.date_created|date:"Y-m-d h:m" }}</small>
+                            </a>
                         </li>
                         {% endfor %}
                     </ul>

@@ -41,3 +41,11 @@ class NoteCreateForm(BaseFormMixin, forms.ModelForm):
     class Meta:
         model = Note
         fields = ['name', 'group', 'description']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['description'].widget.attrs.update({'class': 'form-field form-field-desc', })
+
+
+class NoteUpdateForm(NoteCreateForm):
+    """Note update form"""
