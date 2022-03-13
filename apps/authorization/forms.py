@@ -1,5 +1,7 @@
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.forms import UserCreationForm
+from django import forms
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 from account.models import User
 from extensions.forms import BaseFormMixin
@@ -21,3 +23,9 @@ class SignUpForm(BaseAuthorizationForm, UserCreationForm):
 
 class SignInForm(BaseAuthorizationForm, AuthenticationForm):
     """Form for sign in user"""
+
+    username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True}),
+                             validators=[validate_email])
+
+    def get_invalid_login_error(self):
+        return ValidationError({'username': 'Пожалуйста, введите корректный email и пароль.'})

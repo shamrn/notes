@@ -70,7 +70,7 @@
                             <h3 class="item-title-notes">{{ note.name|truncatechars:30 }}</h3>
                             <p class="item-desc-notes">{{ note.description|truncatechars:60 }}...</p>
                             <small class="item-group-notes">{{ note.group.name }}</small><br>
-                            <small class="item-date-created-notes">{{ note.date_created|date:"Y-m-d h:m" }}</small>
+                            <small class="item-date-created-notes">{{ note.date_created|date:"Y-m-d h:i" }}</small>
                             </a>
                             {% if query_group_id == '-1' %} <a class="item-restore-notes" href="{% url 'note-restore' note.pk %}">Восстановить</a>{% endif %}
                         </li>
