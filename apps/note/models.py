@@ -3,6 +3,7 @@ from typing import Union
 
 from django.conf import settings
 from django.db import models
+from django.http import request
 
 from account.models import User
 from extensions.filters import greatest_trigram_similarity
@@ -11,7 +12,7 @@ from extensions.filters import greatest_trigram_similarity
 class GroupQuerySet(models.QuerySet):
     """Query set for model note"""
 
-    def by_user(self, user):
+    def by_user(self, user: 'User') -> Union['GroupQuerySet', models.QuerySet]:
         """Filter by user"""
 
         return self.filter(user=user)
@@ -33,7 +34,7 @@ class Group(models.Model):
         return self.name
 
     @classmethod
-    def bulk_update_name(cls, queryset, data):
+    def bulk_update_name(cls, queryset: 'models.QuerySet', data: 'request.QueryDict'):
         """Update name for groups"""
 
         for group in queryset:
