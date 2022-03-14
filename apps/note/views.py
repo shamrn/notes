@@ -71,7 +71,7 @@ class NoteBaseView(LoginRequiredMixin):
                     .select_related('group')
                     .order_by('-date_created'))
 
-        if 'group' not in self.request.GET.keys():  # NOQA
+        if self.request.GET.get('group') != str(Group.deleted_number):  # NOQA
             queryset = queryset.filter(await_removal=False)
 
         return queryset
